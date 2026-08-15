@@ -7,17 +7,6 @@ without restarting the session or losing the conversation.
 Pick a model from the gauge → a router proxy repoints the live session. No `/model`
 restart, no relaunch.
 
-```
-        Local ▾              Cloud ▾          ← two dropdowns pick model per side
-   ╭─────────────────────────────────────╮
-   │        ╭───  L O C A L | C L O U D  ─╮ │  ← curved arc labels
-   │      ╱      · · ·   |   · · ·      ╲   │  ← minimal ticks, one per model
-   │     │        ╲      ↑      ╱        │  │  ← needle → active model
-   │              GLM-4.7-Flash             │  ← big glowing center readout
-   │                 LOCAL                  │
-   ╰─────────────────────────────────────╯
-```
-
 ## Why
 
 Claude Code binds `ANTHROPIC_BASE_URL` + auth **once at launch** and never repoints
