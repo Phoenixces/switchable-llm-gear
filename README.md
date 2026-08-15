@@ -96,6 +96,14 @@ switchable-llm-gear/
    MAKE_APP=1 bash gear/build.sh      # → gear/build/Gear.app
    ```
 
+3. Add the `ccgear` alias to your shell (`~/.zshrc`) so switchable mode is one word.
+   Point it at the absolute path of `scripts/switcher.sh` in your clone:
+   ```bash
+   echo "alias ccgear='bash $(pwd)/scripts/switcher.sh'" >> ~/.zshrc
+   source ~/.zshrc                     # or open a new terminal
+   ```
+   Now `ccgear` starts a routed session + gauge; plain `claude` stays normal.
+
 ## Usage
 
 Once the `ccgear` alias is set up (see `RUN.md`), launch a routed session and the
