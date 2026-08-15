@@ -109,22 +109,35 @@ switchable-llm-gear/
 
 ## Usage
 
-Launch a routed Claude Code session (brings the router up if needed):
+Once the `ccgear` alias is set up (see `RUN.md`), launch a routed session and the
+gauge in one command:
 ```bash
-bash scripts/switcher.sh
+ccgear                 # routes through the router + opens the gauge
 ```
-Open the gauge:
-```bash
-open gear/build/Gear.app
-```
+`ccgear` brings the router up if needed, opens the floating gauge (unless already
+running), and launches Claude Code pointed at the router. Plain `claude` stays a
+normal, non-routed session.
+
+<p align="center">
+  <img src="docs/gauge.png" alt="The Gear gauge — Local/Cloud/Sessions dropdowns over a blue-LOCAL / red-PROVIDER semicircle needle gauge" width="420">
+</p>
+
 Then pick a model from the **Local** or **Cloud** dropdown — the needle sweeps to it
 and the live session's backend switches. Switching to a local model lazy-starts
-vllm-mlx (first switch can take ~10–60s while the model loads).
+vllm-mlx (first switch can take ~10–60s while the model loads). The **Sessions ▾**
+dropdown lists every routed session currently attached.
 
-Run the router standalone (without launching Claude):
+Suppress the gauge for one launch with `GEAR_NO_UI=1 ccgear` (router still routes).
+
+<details>
+<summary>Run the pieces manually</summary>
+
 ```bash
-bash scripts/ensure-up.sh            # idempotent; no-op if :9000 already answers
+bash scripts/switcher.sh             # same as ccgear (the alias points here)
+open gear/build/Gear.app             # gauge only
+bash scripts/ensure-up.sh            # router only; idempotent, no-op if :9000 answers
 ```
+</details>
 
 ## Router control API (localhost only)
 
