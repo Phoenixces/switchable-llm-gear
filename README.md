@@ -27,16 +27,45 @@ that we control; the gauge tells the router which backend to forward to.
 
 ## Architecture
 
-```
-   Gear gauge (Swift/AppKit floating window)      needle → model
-        │  POST /switch {kind,model_id}   GET /state
-        ▼
-   Router proxy  http://127.0.0.1:9000  (Python stdlib, no deps)   ← fixed URL, always up
-        │ holds ACTIVE_TARGET; passthrough /v1/*  (SSE streamed)
-        ├── local  → strip client auth, force model id, lazy-start vllm-mlx :8000
-        └── provider → inject x-api-key(UUID) + anthropic-version, map tier→id
-             ▼                              ▼
-        vllm-mlx :8000              gateway localhost:6655/anthropic/  (7 Claude models)
+```mermaid
+flowchart TB
+    subgraph launch["ccgear launch (scripts/switcher.sh)"]
+        SW["switcher.sh<br/>strips real creds · injects dummy<br/>ANTHROPIC_BASE_URL=:9000<br/>X-Gear-Session: id|cwd"]
+        EU["ensure-up.sh<br/>router up? else start"]
+    end
+
+    CC["Claude Code CLI<br/>(bound to :9000 at launch)"]
+    GAUGE["Gear gauge<br/>(Swift/AppKit floating window)<br/>Local ▾ · Cloud ▾ · Sessions ▾"]
+
+    subgraph router["Router proxy — 127.0.0.1:9000 (Python stdlib)"]
+        R["Handler<br/>holds ACTIVE_TARGET<br/>tracks sessions (TTL 45s)"]
+        API["Control API<br/>GET /state · GET /health<br/>POST /switch"]
+        PASS["Passthrough /v1/*<br/>(SSE streamed)"]
+    end
+
+    LOCAL["vllm-mlx :8000<br/>local MLX model<br/>(lazy-started)"]
+    CLOUD["gateway localhost:6655/anthropic/<br/>Claude models<br/>router injects x-api-key (UUID)"]
+    CFG[("config/config.json<br/>UUID token · gitignored")]
+
+    SW -->|launches| CC
+    SW -->|open .app| GAUGE
+    EU -.->|starts| R
+
+    CC -->|"/v1/messages + session header"| PASS
+    GAUGE -->|"POST /switch {kind,model_id}"| API
+    GAUGE -->|"GET /state (poll 5s)"| API
+
+    API --> R
+    PASS --> R
+    R -->|"kind=local: strip auth, force id"| LOCAL
+    R -->|"kind=provider: inject UUID + version"| CLOUD
+    R -.reads.-> CFG
+    R -->|spawns/stops| LOCAL
+
+    classDef secret fill:#3a1a1a,stroke:#c44,color:#fca
+    classDef proxy fill:#1a2a3a,stroke:#48c,color:#adf
+    class CFG,CLOUD secret
+    class R,API,PASS proxy
 ```
 
 Claude Code is launched pointed at the router (`:9000`) and never sees the real
