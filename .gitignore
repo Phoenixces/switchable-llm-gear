@@ -1,0 +1,13 @@
+# secrets — never commit
+config/config.json
+
+# runtime state + logs
+run/state.json
+run/*.log
+run/*.log.1
+
+# gear build artifacts
+gear/build/
+
+.DS_Store
+__pycache__/

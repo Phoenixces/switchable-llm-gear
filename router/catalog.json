@@ -1,0 +1,19 @@
+{
+  "local": [
+    { "flag": "gemma-light", "id": "mlx-community/gemma-4-e4b-it-4bit",              "name": "Gemma-4-E4B",          "size": "5GB",  "desc": "Default, clean tool calling — 16GB+ RAM" },
+    { "flag": "gemma",       "id": "mlx-community/gemma-4-26b-a4b-it-4bit",          "name": "Gemma-4-26B-A4B MoE",  "size": "16GB", "desc": "Google MoE, 3.8B active — 24GB+ RAM" },
+    { "flag": "review",      "id": "mlx-community/GLM-4.7-Flash-4bit",               "name": "GLM-4.7-Flash",        "size": "17GB", "desc": "Stronger reasoning — 24GB+ RAM" },
+    { "flag": "coder",       "id": "mlx-community/Qwen3-Coder-30B-A3B-Instruct-4bit","name": "Qwen3-Coder-30B-A3B",  "size": "18GB", "desc": "Heavier code model — 24GB+ RAM" },
+    { "flag": "qwen3",       "id": "mlx-community/Qwen3.5-9B-MLX-4bit",              "name": "Qwen3.5-9B",           "size": "5GB",  "desc": "General reasoning — verbose thinking leak" },
+    { "flag": "coder7b",     "id": "mlx-community/Qwen2.5-Coder-7B-Instruct-4bit",   "name": "Qwen2.5-Coder-7B",     "size": "5GB",  "desc": "Code analysis — tool calls unreliable" }
+  ],
+  "provider": [
+    { "id": "anthropic--claude-4.5-haiku",  "name": "Claude 4.5 Haiku",  "tier": "haiku" },
+    { "id": "anthropic--claude-4.5-sonnet", "name": "Claude 4.5 Sonnet", "tier": "sonnet" },
+    { "id": "anthropic--claude-4.5-opus",   "name": "Claude 4.5 Opus",   "tier": "opus" },
+    { "id": "anthropic--claude-4.6-sonnet", "name": "Claude 4.6 Sonnet", "tier": "sonnet" },
+    { "id": "anthropic--claude-4.6-opus",   "name": "Claude 4.6 Opus",   "tier": "opus" },
+    { "id": "anthropic--claude-4.7-opus",   "name": "Claude 4.7 Opus",   "tier": "opus" },
+    { "id": "anthropic--claude-4.8-opus",   "name": "Claude 4.8 Opus",   "tier": "opus" }
+  ]
+}

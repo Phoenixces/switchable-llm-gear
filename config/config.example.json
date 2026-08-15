@@ -1,0 +1,10 @@
+{
+  "provider_base_url": "http://localhost:6655/anthropic/", 
+  "provider_auth_token": "REPLACE_WITH_YOUR_GATEWAY_TOKEN",
+  "anthropic_version": "2023-06-01",
+  "vllm_bin": "/path/to/claude-code-local-llm/bash/.venv/bin/vllm-mlx",
+  "hf_cache": "/Users/YOU/.cache/huggingface/hub",
+  "vllm_port": 8000,
+  "router_port": 9000,
+  "default_target": { "kind": "provider", "model_id": "anthropic--claude-4.5-sonnet" }
+}
